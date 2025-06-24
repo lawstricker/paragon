@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Paragon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 0 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .form-group input {
+                padding: 0.5rem;
+            }
+            
+            button {
+                padding: 0.5rem;
+            }
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .login-link a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Paragon</div>
+        <form id="registrationForm" action="registration_db.php" method="post">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+                <div class="error-message" id="nameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div class="login-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        // document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+            // Reset error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => el.style.display = 'none');
+
+            // Get form values
+        // const name = document.getElementById('name').value;
+        // const email = document.getElementById('email').value;
+        // const password = document.getElementById('password').value;
+        // const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validate name
+        if (!name.trim()) {
+            const nameError = document.getElementById('nameError');
+            nameError.textContent = 'Please enter your full name';
+            nameError.style.display = 'block';
+            return;
+        }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                const emailError = document.getElementById('emailError');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                return;
+            }
+
+            // Validate password
+            if (password.length < 6) {
+                const passwordError = document.getElementById('passwordError');
+                passwordError.textContent = 'Password must be at least 6 characters long';
+                passwordError.style.display = 'block';
+                return;
+            }
+
+            // Validate password confirmation
+            if (password !== confirmPassword) {
+                const confirmPasswordError = document.getElementById('confirmPasswordError');
+                confirmPasswordError.textContent = 'Passwords do not match';
+                confirmPasswordError.style.display = 'block';
+                return;
+            }
+
+            // Check if user already exists
+            // const users = JSON.parse(localStorage.getItem('users') || '[]');
+            // if (users.some(user => user.email === email)) {
+            //     const emailError = document.getElementById('emailError');
+            //     emailError.textContent = 'This email is already registered';
+            //     emailError.style.display = 'block';
+            //     return;
+            // }
+
+        //     // Add new user
+        //     users.push({
+        //     name,
+        //     email,
+        //     password,
+        //     registrationDate: new Date().toISOString(),
+        //     lastLogin: null
+        // });
+            // localStorage.setItem('users', JSON.stringify(users));
+
+            // // Store user email for auto-login
+            // localStorage.setItem('userEmail', email);
+            
+            // Redirect to index.html
+            window.location.href = 'index.html';
+        // });
+    </script>
+</body>
+</html>
