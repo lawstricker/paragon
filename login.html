@@ -125,7 +125,7 @@
 
         <img src="Img/logo2.png" alt="">
         
-        <form id="loginForm">
+        <form id="loginForm" action="login_user.php" method="post">
             <div class="form-group">
                 <label for="loginEmail">Email</label>
                 <input type="email" id="loginEmail" name="email" required>
@@ -141,60 +141,5 @@
             Don't have an account? <a href="registration.html">Register here</a>
         </div> -->
     </div>
-
-    <script>
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const loginError = document.getElementById('loginError');
-            
-            // Simple validation
-            if (!email || !password) {
-                loginError.textContent = 'Please fill in all fields';
-                loginError.style.display = 'block';
-                return;
-            }
-
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                loginError.textContent = 'Please enter a valid email address';
-                loginError.style.display = 'block';
-                return;
-            }
-
-            // Store user email in localStorage
-            localStorage.setItem('userEmail', email);
-            
-            // Check if admin user
-            if (email.endsWith('@admin.com')) {
-                window.location.href = 'admin.html';
-            } else {
-                // Get users from localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const user = users.find(u => u.email === email);
-                
-                if (!user) {
-                    loginError.textContent = 'User not found';
-                    loginError.style.display = 'block';
-                    return;
-                }
-                
-                if (user.password !== password) {
-                    loginError.textContent = 'Invalid password';
-                    loginError.style.display = 'block';
-                    return;
-                }
-                
-                // Update last login
-                user.lastLogin = new Date().toISOString();
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
 </body>
 </html>

@@ -20,11 +20,16 @@ function registerUser($name, $email, $password) {
 
 function authenticateUser($email, $password) {
     global $conn;
+    session_start();
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
     
     if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['fullName'] = $user['fullName'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['loggedin'] = true;
         return $user;
     }
     return false;

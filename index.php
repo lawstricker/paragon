@@ -1,3 +1,6 @@
+<?php
+include 'auth.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -204,23 +207,6 @@
     </style>
 
     <script>
-        // Check if user is logged in and display info
-        window.onload = function() {
-            // Check if we came from login page and user email exists
-            const userEmail = localStorage.getItem('userEmail');
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.email === userEmail);
-            
-            if (!document.referrer.includes('login.html') || !userEmail) {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            document.getElementById('userEmail').textContent = userEmail;
-            if (user && user.name) {
-                document.getElementById('userName').textContent = user.name;
-            }
-        }
 
         function loadPDF(event, pdfPath) {
             event.preventDefault();
