@@ -20,11 +20,17 @@ function registerUser($name, $email, $password) {
 
 function authenticateUser($email, $password) {
     global $conn;
-    session_start();
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
     $stmt->execute([$email]);
-    $user = $stmt->fetch();
-    
+
+    // Ensure we fetch associative array
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['fullName'] = $user['fullName'];
         $_SESSION['email'] = $user['email'];
@@ -32,6 +38,7 @@ function authenticateUser($email, $password) {
         $_SESSION['loggedin'] = true;
         return $user;
     }
+
     return false;
 }
 ?>
