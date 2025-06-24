@@ -11,15 +11,13 @@ if (empty($email) || empty($password)) {
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
 // SQL query to insert data
-$sql = authenticateUser($email, $password);
+$res = authenticateUser($email, $password);
 
-if ($sql) {
+if ($res) {
   echo "Login successful!";
   header("Location: index.php");
   exit();
 } else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+  header("Location: login.html");
 }
-
-$conn->close();
 ?>

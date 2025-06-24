@@ -36,7 +36,7 @@ function authenticateUser($email, $password) {
         $_SESSION['email'] = $user['email'];
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['loggedin'] = true;
-        return $user;
+        return true;
     }
 
     return false;
