@@ -8,7 +8,6 @@ if (empty($email) || empty($password)) {
     echo "Email and password are required.";
     exit();
 }
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
 // SQL query to insert data
 $res = authenticateUser($email, $password);
