@@ -2,8 +2,12 @@
 include 'db_connect.php';
 
 // Get form data
-$name = $_POST['name'];
 $email = $_POST['email'];
+$password = $_POST['password'];
+if (empty($email) || empty($password)) {
+    echo "Email and password are required.";
+    exit();
+}
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
 // SQL query to insert data
