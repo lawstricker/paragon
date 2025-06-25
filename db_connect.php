@@ -32,14 +32,19 @@ function authenticateUser($email, $password) {
     // Ensure we fetch associative array
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['fullName'] = $user['fullName'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['loggedin'] = true;
-        return true;
+    
+    if ($user) {
+        var_dump(password_verify($password, $user['password']), $password, $user['password']);
+        die();
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['fullName'] = $user['fullName'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['loggedin'] = true;
+            return true;
+        }
     }
-    return $user
+    return false;
     // return false;
     } catch (\Throwable $th) {
         throw $th;
