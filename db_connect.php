@@ -19,7 +19,8 @@ function registerUser($name, $email, $password) {
 }
 
 function authenticateUser($email, $password) {
-    global $conn;
+    try {
+        global $conn;
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -40,6 +41,9 @@ function authenticateUser($email, $password) {
         return true;
     }
 
-    return false;
+    // return false;
+    } catch (\Throwable $th) {
+        throw $th;
+    }
 }
 ?>

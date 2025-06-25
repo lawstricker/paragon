@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     // Not logged in — redirect to login page
-    header("Location: login.php");
+    header("Location: login.html");
     exit;
 }
 ?>
