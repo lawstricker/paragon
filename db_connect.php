@@ -37,7 +37,9 @@ function authenticateUser($email, $password) {
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        var_dump($user);
         if ($user && password_verify($password, $user['password'])) {
+var_dump('was here');
             $_SESSION['fullName'] = $user['fullName'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['user_id'] = $user['id'];
