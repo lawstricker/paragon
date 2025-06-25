@@ -13,7 +13,7 @@ try {
 
 function registerUser($name, $email, $password) {
     global $conn;
-    $hashed_password = password_hash(trim($password), PASSWORD_BCRYPT);
+    $hashed_password = password_hash(trim($password), PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)");
     return $stmt->execute([$name, $email, $hashed_password]);
 }
@@ -34,7 +34,7 @@ function authenticateUser($email, $password) {
 
     
     if ($user) {
-        var_dump(password_verify($password, $user['password']), $user['password']);
+        var_dump($password, $user['password']);
         die();
         if (password_verify(trim($password), trim($user['password']))) {
             $_SESSION['fullName'] = $user['fullName'];
