@@ -14,6 +14,6 @@ if ($res) {
   header("Location: login.html");
   exit();
 } else {
-  echo "Error:"
+  echo "Error:";
 }
 ?>
