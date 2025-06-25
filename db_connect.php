@@ -34,7 +34,7 @@ function authenticateUser($email, $password) {
 
     
     if ($user) {
-        var_dump(password_verify($password, $user['password']), $password, $user['password']);
+        var_dump(password_hash($password, PASSWORD_BCRYPT), $user['password']);
         die();
         if (password_verify($password, $user['password'])) {
             $_SESSION['fullName'] = $user['fullName'];
