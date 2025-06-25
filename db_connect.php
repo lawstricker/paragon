@@ -34,6 +34,14 @@ function authenticateUser($email, $password) {
 
     
     if ($user) {
+        $enteredPassword = 'password';
+        $storedHash = '$2y$10$ids1J8p7dwqNJIe/J6oAxOlgX3jC3B1/OggWav1CAJ2Fcy/wBwW7W';
+
+        if (password_verify($enteredPassword, $storedHash)) {
+            echo "✅ Password is correct.";
+        } else {
+            echo "❌ Incorrect password.";
+        }
         var_dump($password, $user['password']);
         die();
         if (password_verify(trim($password), trim($user['password']))) {
