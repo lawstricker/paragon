@@ -34,13 +34,13 @@ function authenticateUser($email, $password) {
 
     
     if ($user) {
-        $enteredPassword = 'password';
-        $storedHash = '$2y$10$ids1J8p7dwqNJIe/J6oAxOlgX3jC3B1/OggWav1CAJ2Fcy/wBwW7W';
+        $password = 'password';
+        $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        if (password_verify($enteredPassword, $storedHash)) {
-            echo "✅ Password is correct.";
+        if (password_verify($password, $hash)) {
+            echo "✅ Password verified.";
         } else {
-            echo "❌ Incorrect password.";
+            echo "❌ Verification failed.";
         }
         var_dump($password, $user['password']);
         die();
