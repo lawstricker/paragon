@@ -14,38 +14,40 @@ try {
 function registerUser($name, $email, $password) {
     global $conn;
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
     $stmt = $conn->prepare("INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)");
-    return $stmt->execute([$name, $email, $hashed_password]);
+
+    if (!$stmt->execute([$name, $email, $hashed_password])) {
+        return false;
+    }
+
+    return true;
 }
 
 function authenticateUser($email, $password) {
     try {
         global $conn;
 
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-    $stmt->execute([$email]);
+        $stmt = $conn->prepare("SELECT id, fullName, email, password FROM users WHERE email = ? LIMIT 1");
+        $stmt->execute([$email]);
 
-    // Ensure we fetch associative array
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    
-    if ($user) {
-        $hashedPassword = $user['password'];
-        if (password_verify($password, $hashedPassword)) {
+        if ($user && password_verify($password, $user['password'])) {
             $_SESSION['fullName'] = $user['fullName'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['loggedin'] = true;
             return true;
         }
-    }
-    return false;
-    // return false;
+
+        return false;
     } catch (\Throwable $th) {
+        // Optionally log the error here
         throw $th;
     }
 }
