@@ -220,8 +220,7 @@ include 'auth.php';
 
         // Handle logout
         document.querySelector('.logout-btn').addEventListener('click', function() {
-            localStorage.removeItem('userEmail'); // Clear stored email
-            window.location.href = 'login.html';
+            window.location.href = 'logout.php'; // Redirect to logout page
         });
 
         // Disable right click
