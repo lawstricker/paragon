@@ -4,7 +4,7 @@ include 'db_connect.php';
 // Get form data
 $name = $_POST['name'];
 $email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+$password = $_POST['password']; // Hash the password
 
 // SQL query to insert data
 $res = registerUser($name, $email, $password);
