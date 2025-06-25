@@ -191,8 +191,8 @@ $userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 
     <header class="header">
         <div class="logo">Paragon</div>
         <div class="user-info">
-            <span class="welcome-message">Welcome, <span id="userName"><?php $userName; ?></span>!</span>
-            <span class="user-email" id="userEmail"><?php $userEmail; ?></span>
+            <span class="welcome-message">Welcome, <span id="userName"><?php echo $userName; ?></span>!</span>
+            <span class="user-email" id="userEmail"><?php echo $userEmail; ?></span>
             <button class="logout-btn">Logout</button>
         </div>
     </header>
