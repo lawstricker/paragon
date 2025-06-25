@@ -13,7 +13,7 @@ try {
 
 function registerUser($name, $email, $password) {
     global $conn;
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
     $stmt = $conn->prepare("INSERT INTO users (fullName, email, password) VALUES (?, ?, ?)");
     return $stmt->execute([$name, $email, $hashed_password]);
 }
@@ -31,6 +31,7 @@ function authenticateUser($email, $password) {
     // Ensure we fetch associative array
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    print_r($password, $user['password']); // Debugging line to check user data
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['fullName'] = $user['fullName'];
         $_SESSION['email'] = $user['email'];
