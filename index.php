@@ -1,5 +1,8 @@
 <?php
 include 'auth.php';
+
+$userName = isset($_SESSION['fullName']) ? htmlspecialchars($_SESSION['fullName']) : 'Guest';
+$userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -188,8 +191,8 @@ include 'auth.php';
     <header class="header">
         <div class="logo">Paragon</div>
         <div class="user-info">
-            <span class="welcome-message">Welcome, <span id="userName"></span>!</span>
-            <span class="user-email" id="userEmail"></span>
+            <span class="welcome-message">Welcome, <span id="userName"><?php $userName; ?></span>!</span>
+            <span class="user-email" id="userEmail"><?php $userEmail; ?></span>
             <button class="logout-btn">Logout</button>
         </div>
     </header>
