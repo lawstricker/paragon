@@ -1,3 +1,4 @@
+
 <?php
 include 'auth.php';
 
@@ -186,6 +187,7 @@ $userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 
             font-size: 0.9rem;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <header class="header">
@@ -211,14 +213,58 @@ $userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 
 
     <script>
 
+        
+
+        function clearContainer() {
+            const container = document.getElementById('pdf-container');
+            while(container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
+
         function loadPDF(event, pdfPath) {
             event.preventDefault();
-            const pdfViewer = document.getElementById('pdfViewer');
-            pdfViewer.data = pdfPath;
-            const embedElement = pdfViewer.getElementsByTagName('embed')[0];
-            if (embedElement) {
-                embedElement.src = pdfPath;
+            clearContainer()
+            // const pdfViewer = document.getElementById('pdfViewer');
+            // pdfViewer.data = pdfPath;
+            // const embedElement = pdfViewer.getElementsByTagName('embed')[0];
+            // if (embedElement) {
+            //     embedElement.src = pdfPath;
+            // }
+
+            const url = pdfPath;
+
+            console.log('Loading PDF:', url);
+
+            const container = document.getElementById('pdf-container');
+
+            
+
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+            const numPages = pdf.numPages;
+
+            for(let pageNum = 1; pageNum <= numPages; pageNum++) {
+                pdf.getPage(pageNum).then(page => {
+                const scale = 1;
+                const viewport = page.getViewport({ scale });
+
+                // Create a canvas for each page
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Append canvas to container
+                container.appendChild(canvas);
+
+                // Render page
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+                });
             }
+            });
         }
 
         // Handle logout
@@ -227,15 +273,17 @@ $userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 
         });
 
         // Disable right click
-         document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-           return false;
-         });
+        //  document.addEventListener('contextmenu', function(e) {
+        //     e.preventDefault();
+        //    return false;
+        //  });
     </script>
     
     <div class="container">
-        <div class="page-view">
-            <object id="pdfViewer" type="application/pdf" data="" style="width: 100%; height: 100%; min-height: 900px;">
+        <div class="page-view" style="height: 700px; overflow-y: scroll;">
+            <div id="pdf-container"></div>
+
+            <!-- <object id="pdfViewer" type="application/pdf" data="" style="width: 100%; height: 100%; min-height: 900px;">
                 <param name="view" value="Fit" />
                 <param name="toolbar" value="0" />
                 <param name="navpanes" value="0" />
@@ -243,7 +291,7 @@ $userEmail = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 
                 <param name="download" value="0" />
                 <param name="printing" value="0" />
                 <embed type="application/pdf" width="100%" height="100%" style="min-height: 900px;">
-            </object>
+            </object> -->
         </div>
         
         <div class="course-menu">
