@@ -11,11 +11,8 @@ if (empty($email) || empty($password)) {
 
 // SQL query to insert data
 $res = authenticateUser($email, $password);
-print_r($res);
 if ($res) {
-  echo "Login successful!";
   header("Location: index.php");
-  exit();
 } else {
    header("Location: login.html");
 }
